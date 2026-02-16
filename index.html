@@ -83,7 +83,7 @@ button:hover {
     <h1 id="question"></h1>
     <div id="buttons"></div>
 </div>
-    
+
 <script>
 
 const funnyPhrases = [
@@ -92,14 +92,11 @@ const funnyPhrases = [
 "Попробуй ещё раз 😜",
 "Я всё равно знаю ответ 😌",
 "Ты ошибся 😁",
-"Нееееет 😆",
-"Ты не угадал 😁",
-"опять нееееет 😌",
-"Ну хватиттт 😜",
-"Душнилааа 😌"
+"Нееееет 😆"
 ];
 
 const questions = [
+
 { text: "Ты меня любишь? ❤️", answers: ["Безумно ❤️", "Нет"] },
 
 { text: "Ты скучаешь по мне? 🥺", answers: ["Каждую секунду 💕", "Нет"] },
@@ -129,43 +126,22 @@ const questions = [
 { text: "Будешь смеяться с моих шуток, даже если они странные? 🤡", answers: ["Конечно 😂", "Нет"] },
 
 { text: "Ты готов пройти этот тест до конца ради меня? 😏", answers: ["Дааа ❤️", "Нет"] }
-];
 
-// Ссылки на персонажей (можно заменить на свои GIF/PNG)
-const characters = [
-    "https://i.imgur.com/1Q9Z1Zq.png",
-    "https://i.imgur.com/8K3h1Qf.png",
-    "https://i.imgur.com/YW2j5Xv.png",
-    "https://i.imgur.com/8QkHh3C.png",
-    "https://i.imgur.com/2y4hKz5.png",
-    "https://i.imgur.com/NJxT8dP.png",
-    "https://i.imgur.com/kL9xW0G.png",
-    "https://i.imgur.com/H9wJ1Kd.png",
-    "https://i.imgur.com/3nY7bWx.png",
-    "https://i.imgur.com/dYq3zKv.png"
 ];
 
 let currentQuestion = 0;
 const questionEl = document.getElementById("question");
 const buttonsEl = document.getElementById("buttons");
-const characterEl = document.getElementById("character");
 
 function startGame() {
     document.getElementById("startScreen").style.display = "none";
-    document.getElementById("game").style.display = "flex";
+    document.getElementById("game").style.display = "block";
     showQuestion();
 }
 
 function showQuestion() {
     buttonsEl.innerHTML = "";
     questionEl.innerText = questions[currentQuestion].text;
-
-    // Появление персонажа
-    characterEl.classList.remove("show");
-    setTimeout(() => {
-        characterEl.src = characters[currentQuestion];
-        characterEl.classList.add("show");
-    }, 100);
 
     questions[currentQuestion].answers.forEach((answer, index) => {
         const btn = document.createElement("button");
@@ -177,8 +153,8 @@ function showQuestion() {
         } else {
             btn.classList.add("wrong");
             btn.onmouseover = () => {
-                const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-                const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+                const x = Math.random() * (window.innerWidth - 150);
+                const y = Math.random() * (window.innerHeight - 50);
                 btn.style.position = "absolute";
                 btn.style.left = x + "px";
                 btn.style.top = y + "px";
@@ -209,9 +185,10 @@ function createHearts() {
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.fontSize = (Math.random() * 30 + 10) + "px";
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 6000);
+        setTimeout(() => heart.remove(), 4000);
     }
 }
+
 </script>
 </body>
 </html>
