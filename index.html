@@ -14,7 +14,11 @@ body {
     align-items: center;
     flex-direction: column;
     font-family: 'Comic Sans MS', cursive;
+
+    /* ⬇⬇⬇ ВОТ ЗДЕСЬ ТЫ МОЖЕШЬ ПОСТАВИТЬ СВОЙ ФОН ⬇⬇⬇ */
     background-image: url('https://i.imgur.com/4M7IWwP.jpeg');
+    /* ЗАМЕНИ ссылку внутри url('ТУТ') на свою */
+
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -25,9 +29,6 @@ body {
     padding: 30px;
     border-radius: 20px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 h1 {
@@ -71,35 +72,17 @@ button:hover {
     100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
 }
 
-/* Персонаж */
-#character {
-    font-size: 100px;
+#game {
+    display: none;
+}
+
+/* ⬇⬇⬇ ЕСЛИ ЗАХОЧЕШЬ ДОБАВИТЬ КАРТИНКУ ПОД ВОПРОС ⬇⬇⬇ */
+/*
+#questionImage {
+    width: 200px;
     margin-bottom: 20px;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-    transform: scale(0);
-    opacity: 0;
 }
-
-#character.show {
-    transform: scale(1);
-    opacity: 1;
-}
-
-/* Реакции */
-@keyframes jump {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes shake {
-    0%,100% { transform: translate0); }
-    25% { transform: translate-8px); }
-    75% { transform: translate8px); }
-}
-
-.jump { animation: jump 0.5s ease; }
-.shake { animation: shake 0.5s ease; }
-
+*/
 </style>
 </head>
 
@@ -111,7 +94,12 @@ button:hover {
 </div>
 
 <div id="game" class="overlay">
-    <div id="character">😊</div>
+
+    <!-- ⬇⬇⬇ СЮДА МОЖНО ДОБАВИТЬ КАРТИНКУ ⬇⬇⬇ -->
+    <!--
+    <img id="questionImage" src="ТУТ_ССЫЛКА_НА_КАРТИНКУ">
+    -->
+
     <h1 id="question"></h1>
     <div id="buttons"></div>
 </div>
@@ -166,52 +154,37 @@ const questions = [
 let currentQuestion = 0;
 const questionEl = document.getElementById("question");
 const buttonsEl = document.getElementById("buttons");
-const characterEl = document.getElementById("character");
 
 function startGame() {
     document.getElementById("startScreen").style.display = "none";
-    document.getElementById("game").style.display = "flex";
+    document.getElementById("game").style.display = "block";
     showQuestion();
 }
 
 function showQuestion() {
     buttonsEl.innerHTML = "";
-    questionEl.innerText = questions[currentQuestion].text;
+    questionEl.innerText = questions[currentQuestion];
 
-    // Появление персонажа
-    characterEl.className = "";
-    setTimeout(() => {
-        characterEl.innerText = questions[currentQuestion].emoji;
-        characterEl.classList.add("show");
-    }, 100);
+    const yesBtn = document.createElement("button");
+    yesBtn.innerText = "Да ❤️";
+    yesBtn.classList.add("correct");
+    yesBtn.onclick = nextQuestion;
 
-    ["Да", "Нет"].forEach((answer, index) => {
-        const btn = document.createElement("button");
-        btn.innerText = index === 0 ? "Да ❤️" : "Нет ❌";
+    const noBtn = document.createElement("button");
+    noBtn.innerText = "Нет ❌";
+    noBtn.classList.add("wrong");
 
-        if (index === 0) {
-            btn.classList.add("correct");
-            btn.onclick = () => {
-                characterEl.classList.add("jump"); // прыжок на правильный ответ
-                setTimeout(() => characterEl.classList.remove("jump"), 500);
-                nextQuestion();
-            };
-        } else {
-            btn.classList.add("wrong");
-            btn.onmouseover = () => {
-                const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-                const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-                btn.style.position = "absolute";
-                btn.style.left = x + "px";
-                btn.style.top = y + "px";
-                btn.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
+    noBtn.onmouseover = () => {
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        noBtn.style.position = "absolute";
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        noBtn.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
+    };
 
-                characterEl.classList.add("shake"); // реакция на неправильный ответ
-                setTimeout(() => characterEl.classList.remove("shake"), 500);
-            };
-        }
-        buttonsEl.appendChild(btn);
-    });
+    buttonsEl.appendChild(yesBtn);
+    buttonsEl.appendChild(noBtn);
 }
 
 function nextQuestion() {
@@ -236,6 +209,7 @@ function createHearts() {
         setTimeout(() => heart.remove(), 6000);
     }
 }
+
 </script>
 
 </body>
