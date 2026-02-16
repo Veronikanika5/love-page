@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Только для Саши ❤️</title>
+<title>Только для Максима Викторовича ❤️</title>
 
 <style>
 body {
@@ -14,19 +14,22 @@ body {
     align-items: center;
     flex-direction: column;
     font-family: 'Comic Sans MS', cursive;
-    background-size: cover;
-    background-position: center;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    transition: background 1s ease-in-out;
 }
 
 .overlay {
-    background: rgba(255,255,255,0.8);
-    padding: 30px;
-    border-radius: 20px;
+    background: rgba(255,255,255,0.9);
+    padding: 35px;
+    border-radius: 25px;
     text-align: center;
+    animation: fadeIn 1s ease;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
 }
 
 h1 {
     color: #ff2e63;
+    animation: slideIn 0.8s ease;
 }
 
 button {
@@ -54,10 +57,18 @@ button:hover {
     transform: scale(1.15);
 }
 
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+@keyframes slideIn {
+    from {transform: translateY(-20px); opacity:0;}
+    to {transform: translateY(0); opacity:1;}
+}
+
 .heart {
     position: fixed;
-    color: red;
-    font-size: 20px;
     animation: float 4s linear infinite;
 }
 
@@ -72,11 +83,11 @@ button:hover {
 </style>
 </head>
 
-<body style="background-image: url('https://i.imgur.com/4M7IWwP.jpeg');">
+<body>
 
 <div id="startScreen" class="overlay">
-    <h1>Если ты не мой Саша — уходите!! 😏</h1>
-    <button onclick="startGame()">Это я, твой Саша ❤️</button>
+    <h1>Если ты не мой Максим Викторович— уходите! 😏</h1>
+    <button onclick="startGame()">Это я, твой Максюша ❤️</button>
 </div>
 
 <div id="game" class="overlay">
@@ -86,47 +97,41 @@ button:hover {
 
 <script>
 
+// 🎨 ГРАДИЕНТЫ (меняются автоматически)
+const gradients = [
+"linear-gradient(135deg, #ff9a9e, #fad0c4)",
+"linear-gradient(135deg, #a18cd1, #fbc2eb)",
+"linear-gradient(135deg, #f6d365, #fda085)",
+"linear-gradient(135deg, #84fab0, #8fd3f4)",
+"linear-gradient(135deg, #ff758c, #ff7eb3)"
+];
+
+
 const funnyPhrases = [
 "НЕПРАВИЛЬНО 😂",
 "Так не работает 😏",
 "Попробуй ещё раз 😜",
 "Я всё равно знаю ответ 😌",
 "Ты ошибся 😁",
-"Нееееет 😆"
+"Нееееет 😆",
+"Ну Нееееет 😆",
+"Может хватит шутить😏",
+"Перестань 😌",
+"Только попробуй 🥺",
+"Ну все,я обиделась 🥺"   
 ];
 
 const questions = [
-
 { text: "Ты меня любишь? ❤️", answers: ["Безумно ❤️", "Нет"] },
-
 { text: "Ты скучаешь по мне? 🥺", answers: ["Каждую секунду 💕", "Нет"] },
-
 { text: "Пойдёшь со мной на свидание? 💋", answers: ["Конечно 😍", "Нет"] },
-
 { text: "Будем смотреть фильм вместе? 🍿", answers: ["Дааа ❤️", "Нет"] },
-
 { text: "Будешь меня обнимать? 🤗", answers: ["Всегда 💖", "Нет"] },
-
 { text: "Я самая лучшая? 😏", answers: ["Естественно 😌", "Нет"] },
-
-{ text: "Будешь носить меня на ручках? 😆", answers: ["Да, моя принцесса 👑", "Нет"] },
-
+{ text: "Будешь носить меня на ручках? 😆", answers: ["Да, принцесса 👑", "Нет"] },
 { text: "Любишь мои глупости? 😂", answers: ["Обожаю 😁", "Нет"] },
-
 { text: "Будешь терпеть меня, когда я вредничаю? 😅", answers: ["С удовольствием 💕", "Нет"] },
-
-{ text: "Ты счастлив со мной? 🥰", answers: ["Самый счастливый ❤️", "Нет"] },
-
-{ text: "Будешь делиться со мной вкусняшками? 🍫", answers: ["Всегда 😋", "Нет"] },
-
-{ text: "Разрешишь мне воровать твои худи? 😈", answers: ["Конечно 😎", "Нет"] },
-
-{ text: "Будешь целовать меня просто так? 💋", answers: ["Каждый день 😍", "Нет"] },
-
-{ text: "Будешь смеяться с моих шуток, даже если они странные? 🤡", answers: ["Конечно 😂", "Нет"] },
-
-{ text: "Ты готов пройти этот тест до конца ради меня? 😏", answers: ["Дааа ❤️", "Нет"] }
-
+{ text: "Ты счастлив со мной? 🥰", answers: ["Самый счастливый ❤️", "Нет"] }
 ];
 
 let currentQuestion = 0;
@@ -136,11 +141,19 @@ const buttonsEl = document.getElementById("buttons");
 function startGame() {
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("game").style.display = "block";
+    changeBackground();
     showQuestion();
+}
+
+function changeBackground() {
+    document.body.style.background = gradients[currentQuestion % gradients.length];
 }
 
 function showQuestion() {
     buttonsEl.innerHTML = "";
+    questionEl.style.animation = "none";
+    void questionEl.offsetWidth;
+    questionEl.style.animation = "slideIn 0.8s ease";
     questionEl.innerText = questions[currentQuestion].text;
 
     questions[currentQuestion].answers.forEach((answer, index) => {
@@ -169,26 +182,32 @@ function showQuestion() {
 function nextQuestion() {
     currentQuestion++;
     if (currentQuestion < questions.length) {
+        changeBackground();
         showQuestion();
     } else {
-        questionEl.innerText = "Ты прошёл тест 😍❤️";
-        buttonsEl.innerHTML = "";
-        createHearts();
+        showFinal();
     }
 }
 
+function showFinal() {
+    questionEl.innerHTML = "Ты прошёл тест 😍❤️<br><br>Теперь ты обязан поцеловать меня 💋";
+    buttonsEl.innerHTML = "";
+    createHearts();
+}
+
 function createHearts() {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 120; i++) {
         const heart = document.createElement("div");
         heart.classList.add("heart");
         heart.innerHTML = "❤️";
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random() * 30 + 10) + "px";
+        heart.style.fontSize = (Math.random() * 30 + 15) + "px";
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 4000);
     }
 }
 
 </script>
+
 </body>
 </html>
