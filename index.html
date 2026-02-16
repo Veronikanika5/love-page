@@ -14,18 +14,12 @@ body {
     align-items: center;
     flex-direction: column;
     font-family: 'Comic Sans MS', cursive;
-
-    /* ⬇⬇⬇ ВОТ ЗДЕСЬ ТЫ МОЖЕШЬ ПОСТАВИТЬ СВОЙ ФОН ⬇⬇⬇ */
-    background-image: url('https://i.imgur.com/4M7IWwP.jpeg');
-    /* ЗАМЕНИ ссылку внутри url('ТУТ') на свою */
-
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
 }
 
 .overlay {
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.8);
     padding: 30px;
     border-radius: 20px;
     text-align: center;
@@ -64,29 +58,21 @@ button:hover {
     position: fixed;
     color: red;
     font-size: 20px;
-    animation: float 6s linear infinite;
+    animation: float 4s linear infinite;
 }
 
 @keyframes float {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    0% { transform: translateY(0); opacity: 1;}
+    100% { transform: translateY(-100vh); opacity: 0;}
 }
 
 #game {
     display: none;
 }
-
-/* ⬇⬇⬇ ЕСЛИ ЗАХОЧЕШЬ ДОБАВИТЬ КАРТИНКУ ПОД ВОПРОС ⬇⬇⬇ */
-/*
-#questionImage {
-    width: 200px;
-    margin-bottom: 20px;
-}
-*/
 </style>
 </head>
 
-<body>
+<body style="background-image: url('https://i.imgur.com/4M7IWwP.jpeg');">
 
 <div id="startScreen" class="overlay">
     <h1>Если ты не мой Саша — уходите!! 😏</h1>
@@ -94,12 +80,6 @@ button:hover {
 </div>
 
 <div id="game" class="overlay">
-
-    <!-- ⬇⬇⬇ СЮДА МОЖНО ДОБАВИТЬ КАРТИНКУ ⬇⬇⬇ -->
-    <!--
-    <img id="questionImage" src="ТУТ_ССЫЛКА_НА_КАРТИНКУ">
-    -->
-
     <h1 id="question"></h1>
     <div id="buttons"></div>
 </div>
@@ -163,28 +143,29 @@ function startGame() {
 
 function showQuestion() {
     buttonsEl.innerHTML = "";
-    questionEl.innerText = questions[currentQuestion];
+    questionEl.innerText = questions[currentQuestion].text;
 
-    const yesBtn = document.createElement("button");
-    yesBtn.innerText = "Да ❤️";
-    yesBtn.classList.add("correct");
-    yesBtn.onclick = nextQuestion;
+    questions[currentQuestion].answers.forEach((answer, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = answer;
 
-    const noBtn = document.createElement("button");
-    noBtn.innerText = "Нет ❌";
-    noBtn.classList.add("wrong");
+        if (index === 0) {
+            btn.classList.add("correct");
+            btn.onclick = nextQuestion;
+        } else {
+            btn.classList.add("wrong");
+            btn.onmouseover = () => {
+                const x = Math.random() * (window.innerWidth - 150);
+                const y = Math.random() * (window.innerHeight - 50);
+                btn.style.position = "absolute";
+                btn.style.left = x + "px";
+                btn.style.top = y + "px";
+                btn.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
+            };
+        }
 
-    noBtn.onmouseover = () => {
-        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-        noBtn.style.position = "absolute";
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-        noBtn.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-    };
-
-    buttonsEl.appendChild(yesBtn);
-    buttonsEl.appendChild(noBtn);
+        buttonsEl.appendChild(btn);
+    });
 }
 
 function nextQuestion() {
@@ -199,18 +180,17 @@ function nextQuestion() {
 }
 
 function createHearts() {
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 100; i++) {
         const heart = document.createElement("div");
         heart.classList.add("heart");
         heart.innerHTML = "❤️";
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.fontSize = (Math.random() * 30 + 10) + "px";
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 6000);
+        setTimeout(() => heart.remove(), 4000);
     }
 }
 
 </script>
-
 </body>
 </html>
