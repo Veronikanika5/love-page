@@ -14,21 +14,24 @@ body {
     align-items: center;
     flex-direction: column;
     font-family: 'Comic Sans MS', cursive;
-    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1, #fbc2eb);
-    background-size: 400% 400%;
-    animation: gradient 12s ease infinite;
+    background-image: url('https://i.imgur.com/4M7IWwP.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-@keyframes gradient {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+.overlay {
+    background: rgba(255,255,255,0.85);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1 {
     color: #ff2e63;
-    text-align: center;
-    padding: 20px;
 }
 
 button {
@@ -49,6 +52,7 @@ button {
 .wrong {
     background-color: white;
     color: #ff2e63;
+    position: relative;
 }
 
 button:hover {
@@ -59,32 +63,56 @@ button:hover {
     position: fixed;
     color: red;
     font-size: 20px;
-    animation: float 4s linear infinite;
+    animation: float 6s linear infinite;
 }
 
 @keyframes float {
-    0% { transform: translateY(0); opacity: 1;}
-    100% { transform: translateY(-100vh); opacity: 0;}
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
 }
 
-#startScreen {
-    text-align: center;
+/* Персонаж */
+#character {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: scale(0);
+    opacity: 0;
 }
 
-#game {
-    display: none;
+#character.show {
+    transform: scale(1);
+    opacity: 1;
 }
+
+/* Анимации реакций */
+@keyframes jump {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes shake {
+    0%,100% { transform: translate0); }
+    25% { transform: translate-5px); }
+    75% { transform: translate5px); }
+}
+
+.jump { animation: jump 0.5s ease; }
+.shake { animation: shake 0.5s ease; }
+
 </style>
 </head>
 
 <body>
 
-<div id="startScreen">
+<div id="startScreen" class="overlay">
     <h1>Если ты не мой Саша — уходите!! 😏</h1>
     <button onclick="startGame()">Это я, твой Саша ❤️</button>
 </div>
 
-<div id="game">
+<div id="game" class="overlay">
+    <img id="character" src="" alt="Персонаж">
     <h1 id="question"></h1>
     <div id="buttons"></div>
 </div>
@@ -92,35 +120,68 @@ button:hover {
 <script>
 
 const funnyPhrases = [
-"Неправильный ответ, попробуй ещё 😜",
-"Ах так значит? 😂",
-"Я всё равно знаю правду 😏",
-"Подумай хорошенько 😌",
-"Ты уверен? 🤨"
+"НЕПРАВИЛЬНО 😂",
+"Так не работает 😏",
+"Попробуй ещё раз 😜",
+"Я всё равно знаю ответ 😌",
+"Ты ошибся 😁",
+"Нееееет 😆",
+"Ты не угадал 😁",
+"опять нееееет 😌",
+"Ну хватиттт 😜",
+"Душнилааа 😌"
 ];
 
 const questions = [
-{
-    text: "Ты меня любишь? ❤️",
-    answers: ["Да конечно ❤️", "Ну не знаю 🤔"]
-},
-{
-    text: "Ты скучаешь по мне? 🥺",
-    answers: ["Очень скучаю 💕", "Иногда 🙈"]
-},
-{
-    text: "Пойдёшь со мной на свидание? 💋",
-    answers: ["Дааа 😍", "Может быть 😅"]
-},
-{
-    text: "Посмотрим вместе фильм? 🍿",
-    answers: ["Обязательно ❤️", "Если будет вкусная еда 😂"]
-}
+{ text: "Ты меня любишь? ❤️", answers: ["Безумно ❤️", "Нет"] },
+
+{ text: "Ты скучаешь по мне? 🥺", answers: ["Каждую секунду 💕", "Нет"] },
+
+{ text: "Пойдёшь со мной на свидание? 💋", answers: ["Конечно 😍", "Нет"] },
+
+{ text: "Будем смотреть фильм вместе? 🍿", answers: ["Дааа ❤️", "Нет"] },
+
+{ text: "Будешь меня обнимать? 🤗", answers: ["Всегда 💖", "Нет"] },
+
+{ text: "Я самая лучшая? 😏", answers: ["Естественно 😌", "Нет"] },
+
+{ text: "Будешь носить меня на ручках? 😆", answers: ["Да, моя принцесса 👑", "Нет"] },
+
+{ text: "Любишь мои глупости? 😂", answers: ["Обожаю 😁", "Нет"] },
+
+{ text: "Будешь терпеть меня, когда я вредничаю? 😅", answers: ["С удовольствием 💕", "Нет"] },
+
+{ text: "Ты счастлив со мной? 🥰", answers: ["Самый счастливый ❤️", "Нет"] },
+
+{ text: "Будешь делиться со мной вкусняшками? 🍫", answers: ["Всегда 😋", "Нет"] },
+
+{ text: "Разрешишь мне воровать твои худи? 😈", answers: ["Конечно 😎", "Нет"] },
+
+{ text: "Будешь целовать меня просто так? 💋", answers: ["Каждый день 😍", "Нет"] },
+
+{ text: "Будешь смеяться с моих шуток, даже если они странные? 🤡", answers: ["Конечно 😂", "Нет"] },
+
+{ text: "Ты готов пройти этот тест до конца ради меня? 😏", answers: ["Дааа ❤️", "Нет"] }
+];
+
+// Ссылки на персонажей с эмоциями (можно заменить на свои GIF/PNG)
+const characters = [
+    "https://i.imgur.com/1Q9Z1Zq.png",
+    "https://i.imgur.com/8K3h1Qf.png",
+    "https://i.imgur.com/YW2j5Xv.png",
+    "https://i.imgur.com/8QkHh3C.png",
+    "https://i.imgur.com/2y4hKz5.png",
+    "https://i.imgur.com/NJxT8dP.png",
+    "https://i.imgur.com/kL9xW0G.png",
+    "https://i.imgur.com/H9wJ1Kd.png",
+    "https://i.imgur.com/3nY7bWx.png",
+    "https://i.imgur.com/dYq3zKv.png"
 ];
 
 let currentQuestion = 0;
 const questionEl = document.getElementById("question");
 const buttonsEl = document.getElementById("buttons");
+const characterEl = document.getElementById("character");
 
 function startGame() {
     document.getElementById("startScreen").style.display = "none";
@@ -132,22 +193,39 @@ function showQuestion() {
     buttonsEl.innerHTML = "";
     questionEl.innerText = questions[currentQuestion].text;
 
+    // Появление персонажа
+    characterEl.className = "";
+    setTimeout(() => {
+        characterEl.src = characters[currentQuestion];
+        characterEl.classList.add("show");
+    }, 100);
+
     questions[currentQuestion].answers.forEach((answer, index) => {
         const btn = document.createElement("button");
         btn.innerText = answer;
 
         if (index === 0) {
             btn.classList.add("correct");
+            btn.onclick = () => {
+                characterEl.classList.add("jump"); // Реакция на правильный ответ
+                setTimeout(() => characterEl.classList.remove("jump"), 500);
+                nextQuestion();
+            };
         } else {
             btn.classList.add("wrong");
-        }
-
-        btn.onclick = () => {
-            if (index === 1) {
+            btn.onmouseover = () => {
+                const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+                const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+                btn.style.position = "absolute";
+                btn.style.left = x + "px";
+                btn.style.top = y + "px";
                 btn.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-            }
-            setTimeout(nextQuestion, 800);
-        };
+
+                // Реакция персонажа на неправильный ответ
+                characterEl.classList.add("shake");
+                setTimeout(() => characterEl.classList.remove("shake"), 500);
+            };
+        }
 
         buttonsEl.appendChild(btn);
     });
@@ -158,24 +236,23 @@ function nextQuestion() {
     if (currentQuestion < questions.length) {
         showQuestion();
     } else {
-        questionEl.innerText = "Я тебя обожаю 😍❤️";
+        questionEl.innerText = "Ты прошёл тест 😍❤️";
         buttonsEl.innerHTML = "";
         createHearts();
     }
 }
 
 function createHearts() {
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 100; i++) {
         const heart = document.createElement("div");
         heart.classList.add("heart");
         heart.innerHTML = "❤️";
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.fontSize = (Math.random() * 30 + 10) + "px";
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 4000);
+        setTimeout(() => heart.remove(), 6000);
     }
 }
-
 </script>
 
 </body>
