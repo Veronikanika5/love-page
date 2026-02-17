@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Только для моей Миррошки ❤️</title>
-
 <style>
 body {
     margin: 0;
@@ -17,7 +16,6 @@ body {
     background: linear-gradient(135deg, #ff9a9e, #fad0c4);
     transition: background 1s ease-in-out;
 }
-
 .overlay {
     background: rgba(255,255,255,0.9);
     padding: 35px;
@@ -27,12 +25,10 @@ body {
     box-shadow: 0 0 30px rgba(0,0,0,0.2);
     max-width: 90%;
 }
-
 h1 {
     color: #ff2e63;
     animation: slideIn 0.8s ease;
 }
-
 /* 📌 БЛОК ДЛЯ КАРТИНКИ */
 .question-image {
     margin: 15px 0;
@@ -41,7 +37,6 @@ h1 {
     border-radius: 20px;
     animation: fadeIn 0.8s ease;
 }
-
 button {
     padding: 15px 30px;
     font-size: 18px;
@@ -51,66 +46,53 @@ button {
     margin: 10px;
     transition: 0.3s;
 }
-
 .correct {
     background-color: #ff2e63;
     color: white;
 }
-
 .wrong {
     background-color: white;
     color: #ff2e63;
     position: relative;
 }
-
 button:hover {
     transform: scale(1.15);
 }
-
 @keyframes fadeIn {
     from {opacity:0;}
     to {opacity:1;}
 }
-
 @keyframes slideIn {
     from {transform: translateY(-20px); opacity:0;}
     to {transform: translateY(0); opacity:1;}
 }
-
 .heart {
     position: fixed;
     animation: float 4s linear infinite;
 }
-
 @keyframes float {
     0% { transform: translateY(0); opacity: 1;}
     100% { transform: translateY(-100vh); opacity: 0;}
 }
-
 #game {
     display: none;
 }
 </style>
 </head>
-
 <body>
-
 <div id="startScreen" class="overlay">
     <h1>Если ты не моя Дочурка — уходите! 😏</h1>
-    <button onclick="startGame()">Это я, твоя Миррошка❤️</button>
+    <button onclick="startGame()">Это я, твоя Миррошка ❤️</button>
 </div>
 
 <div id="game" class="overlay">
     <h1 id="question"></h1>
-
     <!-- 📌 ВОТ ТУТ БУДЕТ КАРТИНКА -->
     <img id="questionImage" class="question-image" src="" alt="gif">
-
     <div id="buttons"></div>
 </div>
 
 <script>
-
 const gradients = [
 "linear-gradient(135deg, #ff9a9e, #fad0c4)",
 "linear-gradient(135deg, #a18cd1, #fbc2eb)",
@@ -119,17 +101,17 @@ const gradients = [
 "linear-gradient(135deg, #ff758c, #ff7eb3)"
 ];
 
-/* 📌 СЮДА ВСТАВЛЯЕШЬ ССЫЛКИ RAW С GITHUB */
+/* 📌 ПРАВИЛЬНЫЕ ССЫЛКИ НА GIF С GITHUB */
 const images = [
-"https://github.com/Veronikanika5/love-page/blob/main/animation.gif.mp4.gif",
-"https://github.com/Veronikanika5/love-page/blob/main/animation.gif.mp4%20(8).gif",
-"https://github.com/Veronikanika5/love-page/blob/main/animation.gif.mp4%20(9).gif",
-"https://github.com/Veronikanika5/love-page/blob/main/animation.gif.mp4%20(6).gif",
-"https://github.com/Veronikanika5/love-page/blob/main/animation.gif.mp4%20(7).gif",
-"https://github.com/Veronikanika5/love-page/blob/main/animation.gif.mp4%20(5).gif",
-"https://github.com/Veronikanika5/love-page/blob/main/animation.gif.mp4%20(10).gif",
-"https://github.com/Veronikanika5/love-page/blob/main/animation.gif.mp4%20(4).gif",
-"https://github.com/Veronikanika5/love-page/blob/main/animation.gif.mp4%20(2).gif"
+"https://cdn.jsdelivr.net/gh/Veronikanika5/love-page@main/animation.gif.mp4.gif",
+"https://cdn.jsdelivr.net/gh/Veronikanika5/love-page@main/animation.gif.mp4%20(8).gif",
+"https://cdn.jsdelivr.net/gh/Veronikanika5/love-page@main/animation.gif.mp4%20(9).gif",
+"https://cdn.jsdelivr.net/gh/Veronikanika5/love-page@main/animation.gif.mp4%20(6).gif",
+"https://cdn.jsdelivr.net/gh/Veronikanika5/love-page@main/animation.gif.mp4%20(7).gif",
+"https://cdn.jsdelivr.net/gh/Veronikanika5/love-page@main/animation.gif.mp4%20(5).gif",
+"https://cdn.jsdelivr.net/gh/Veronikanika5/love-page@main/animation.gif.mp4%20(10).gif",
+"https://cdn.jsdelivr.net/gh/Veronikanika5/love-page@main/animation.gif.mp4%20(4).gif",
+"https://cdn.jsdelivr.net/gh/Veronikanika5/love-page@main/animation.gif.mp4%20(2).gif"
 ];
 
 const funnyPhrases = [
@@ -177,7 +159,7 @@ function showQuestion() {
     buttonsEl.innerHTML = "";
     questionEl.innerText = questions[currentQuestion].text;
 
-    /* 📌 МЕНЯЕМ КАРТИНКУ */
+    // Меняем картинку
     imageEl.src = images[currentQuestion] || "";
     imageEl.style.display = images[currentQuestion] ? "block" : "none";
 
@@ -215,7 +197,7 @@ function nextQuestion() {
 }
 
 function showFinal() {
-    questionEl.innerHTML = "Ты прошла тест 😍❤️<br><br>С Днем Рождения💋";
+    questionEl.innerHTML = "Ты прошла тест 😍❤️<br><br>С Днем Рождения 💋";
     imageEl.style.display = "none";
     buttonsEl.innerHTML = "";
     createHearts();
@@ -232,8 +214,6 @@ function createHearts() {
         setTimeout(() => heart.remove(), 4000);
     }
 }
-
 </script>
-
 </body>
 </html>
